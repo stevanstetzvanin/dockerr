@@ -1,4 +1,4 @@
-﻿from selenium import webdriver
+from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -13,33 +13,37 @@ import os
 url = 'http://www.twitch.tv/'
 
 ############# CHROME DRIVER ##############
-# chrome_options = webdriver.ChromeOptions()
 
-# chrome_options.add_argument("--mute-audio")
-# chrome_options.add_argument("--lang=en-US,en")
-# chrome_options.add_argument("--disable-notifications")
+def chromebrowser(proxy, nogui): # use proxy = None to disable it. nogui as boolen
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--lang=en-US,en")
+    # chrome_options.add_argument("--mute-audio")
+    chrome_options.add_argument("--disable-notifications")
+    chrome_driver_path = get_full_path('/drivers/chromedriver')
+    if proxy != None:
+        current_proxy = proxy
+        chrome_options.add_argument("--proxy-server={}".format(current_proxy))
+        print("Using proxy: [{}]".format(current_proxy))
+    if nogui:
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+    browser = webdriver.Chrome(options=chrome_options, executable_path=chrome_driver_path)
+    return browser
 
-# current_proxy = '198.98.59.87:8080'
-# chrome_options.add_argument("--proxy-server={}".format(current_proxy))
-
-# print("Using proxy: [{}]".format(current_proxy))
-
-# b = webdriver.Chrome()
-# b = webdriver.Chrome(options=chrome_options)
 ############# FIREFOX DRIVER #############
-profile = webdriver.FirefoxProfile()
-profile.set_preference('intl.accept_languages', 'en-US')
-# profile.set_preference('media.volume_scale', '0.0')
 
-firefox_driver_path = '/usr/local/bin/geckodriver'
-options = webdriver.firefox.options.Options()
-options.headless = True
-b = webdriver.Firefox(firefox_profile=profile, executable_path=firefox_driver_path, options=options)
+def firefoxbrowser(nogui): # use nogui as boolean
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference('intl.accept_languages', 'en-US')
+    # profile.set_preference('media.volume_scale', '0.0')
+    firefox_driver_path = get_full_path('/drivers/geckodriver')
+    options = webdriver.firefox.options.Options()
+    options.headless = nogui
+    browser = webdriver.Firefox(firefox_profile=profile, executable_path=firefox_driver_path, options=options)
+    return browser
 
-# b = webdriver.Firefox(firefox_profile=profile)
 ##########################################
-b.get(url + 'login')
-sleep(3)
+
 ##########################################
 ############## UNUSED STUFF ##############
 # def search_tags_with_text(browser, tag, text):
@@ -76,6 +80,7 @@ sleep(3)
 #         pass
 ##########################################
 ##########################################
+
 def get_full_path(file_path):
     return str(Path("{}{}".format(os.getcwd(), file_path)))
 
@@ -263,7 +268,10 @@ def main():
     b.get(url + channel)
     sleep(6)
     change_theme(b)
-    start_bonus(channel)
+    if nogui:
+        start_idler(channel)
+    else:
+        start_bonus(channel)
 
 print("\n     TWITCH AUTOMATION SCRIPT.\n     MADE BY")
 print("     -----------------------------------------------------------------")
@@ -275,4 +283,22 @@ print("         +#+#+     +#+     +#+      +#+   +#+  +#+     +#+ +#+   +#+#+")
 print("         #+#+#     #+#     #+#       #+# #+#   #+#     #+# #+#    #+#+")
 print("     ########      ###     #######     ###     ###     ### ###     ###")
 print("     -----------------------------------------------------------------")
+
+driver = input("\nSelect the browser:\n1 - to use chrome\n2 - to use firefox\n Type browser number: ")
+while (driver != '1' and driver != '2'):
+    driver = input("Wrong browser number try again: ")
+
+hl = input("\nRun in headless mode?\n Type Y to yes. N to no: ")
+if (hl == 'Y' or hl == 'y'):
+    nogui = True
+else:
+    nogui = False
+
+if driver == '1':
+    b = chromebrowser(None, nogui)
+else:
+    b = firefoxbrowser(nogui)
+
+b.get(url + 'login')
+sleep(3)
 main()
