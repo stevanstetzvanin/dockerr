@@ -1,0 +1,14 @@
+{
+    "accounts": {
+        "1": "usuario1",
+        "2": "usuario2"
+    },
+    "passwords": {
+        "usuario1": "senhadousuario1",
+        "usuario2": "senhadousuario2"
+    },
+    "channels": {
+        "1": "raulzitoyt",
+        "2": "gaules"
+    }
+}
