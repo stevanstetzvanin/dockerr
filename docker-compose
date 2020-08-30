@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+    t:
+        container_name: Twitch
+        volumes:
+            - 'data.json:/usr/src/app/data.json'
+        image: t/t
