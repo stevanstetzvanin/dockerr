@@ -44,43 +44,6 @@ def firefoxbrowser(nogui): # use nogui as boolean
 
 ##########################################
 
-##########################################
-############## UNUSED STUFF ##############
-# def search_tags_with_text(browser, tag, text):
-#     elements = browser.find_elements_by_tag_name(tag)
-#     for element in elements:
-#         if element.text == text:
-#             return element
-
-# def search_tags_with_attribute(browser, tag, attribute, value):
-#     elements = browser.find_elements_by_tag_name(tag)
-#     for element in elements:
-#         if element.get_attribute(attribute) == value:
-#             return element
-
-# def start_bonus_farm(browser):
-#     input(' Press ENTER when bonus button appear to start farming...')
-#     while True:
-#             try:
-#                 browser.find_element_by_class_name('tw-button--success').click()
-#                 print(' Bonus successfully redeemed!')
-#             except:
-#                 print(' Error! stoping farm and exiting...')
-#                 break
-#             else:
-#                 print(' Waiting 15 minutes for the next bonus...')
-#                 sleep(905)
-
-# def bonus_click(browser):
-#     try:
-#         browser.find_element_by_class_name('tw-button--success').click()
-#         print(' Bonus reedemed.')
-#     except:
-#         print(' No bonus found.')
-#         pass
-##########################################
-##########################################
-
 def get_full_path(file_path):
     return str(Path("{}{}".format(os.getcwd(), file_path)))
 
@@ -241,7 +204,7 @@ def main():
     acc = input("\n Enter account number to login: ")
     if acc in get_data()['accounts']:
         username = get_data()['accounts'][acc]
-        password = get_data()['passwords'][username]
+        password = get_data()['passwords'][acc]
     else:
         print("Number doesn't match, insert the credentials.")
         username = input(" Login username: ")
@@ -272,6 +235,8 @@ def main():
         start_idler(channel)
     else:
         start_bonus(channel)
+        
+##########################################
 
 print("\n     TWITCH AUTOMATION SCRIPT.\n     MADE BY")
 print("     -----------------------------------------------------------------")
@@ -283,12 +248,13 @@ print("         +#+#+     +#+     +#+      +#+   +#+  +#+     +#+ +#+   +#+#+")
 print("         #+#+#     #+#     #+#       #+# #+#   #+#     #+# #+#    #+#+")
 print("     ########      ###     #######     ###     ###     ### ###     ###")
 print("     -----------------------------------------------------------------")
+print("     Docker image by João Bruno.")
 
 driver = input("\nSelect the browser:\n1 - to use chrome\n2 - to use firefox\n Type browser number: ")
 while (driver != '1' and driver != '2'):
     driver = input("Wrong browser number try again: ")
 
-hl = input("\nRun in headless mode?\n Type Y to yes. N to no: ")
+hl = input("\nRun without graphic user interface?\n Type Y to yes. N to no: ")
 if (hl == 'Y' or hl == 'y'):
     nogui = True
 else:
