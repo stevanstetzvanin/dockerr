@@ -183,7 +183,7 @@ def start_bonus(channel):
     if channel_status(b, channel, False) == True:
         mature_check(b)
         chat_rules(b)
-        set_low_quality(b)
+        #set_low_quality(b)
         print("\n---------------------------------- \n\n")
         bonus_start(b, channel)
     print("\n---------------------------------- \n\n")
@@ -193,7 +193,7 @@ def start_idler(channel):
     print("\n\n--------- checking stuff --------- \n")
     mature_check(b)
     chat_rules(b)
-    set_low_quality(b)
+    #set_low_quality(b)
     print("\n---------------------------------- \n\n")
     idler(b, channel)
     exit_script()
