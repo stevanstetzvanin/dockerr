@@ -1,4 +1,4 @@
-from selenium import webdriver
+﻿from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -44,8 +44,54 @@ def firefoxbrowser(nogui): # use nogui as boolean
 
 ##########################################
 
+##########################################
+############## UNUSED STUFF ##############
+# def search_tags_with_text(browser, tag, text):
+#     elements = browser.find_elements_by_tag_name(tag)
+#     for element in elements:
+#         if element.text == text:
+#             return element
+
+# def search_tags_with_attribute(browser, tag, attribute, value):
+#     elements = browser.find_elements_by_tag_name(tag)
+#     for element in elements:
+#         if element.get_attribute(attribute) == value:
+#             return element
+
+# def start_bonus_farm(browser):
+#     input(' Press ENTER when bonus button appear to start farming...')
+#     while True:
+#             try:
+#                 browser.find_element_by_class_name('tw-button--success').click()
+#                 print(' Bonus successfully redeemed!')
+#             except:
+#                 print(' Error! stoping farm and exiting...')
+#                 break
+#             else:
+#                 print(' Waiting 15 minutes for the next bonus...')
+#                 sleep(905)
+
+# def bonus_click(browser):
+#     try:
+#         browser.find_element_by_class_name('tw-button--success').click()
+#         print(' Bonus reedemed.')
+#     except:
+#         print(' No bonus found.')
+#         pass
+##########################################
+##########################################
+
 def get_full_path(file_path):
     return str(Path("{}{}".format(os.getcwd(), file_path)))
+
+def get_data():
+    with open(get_full_path("/data.json")) as data_file:
+        data = json.load(data_file)
+    return data
+
+def consult_database(data):
+    for x in get_data()[data]:
+        print("{} - {}" .format(x,get_data()[data][x]))
 
 def change_theme(browser): # change color theme
     menu = browser.find_element_by_css_selector('[data-a-target="user-menu-toggle"')
@@ -190,9 +236,16 @@ def start_idler(channel):
     exit_script()
 
 def main():
-    username = os.environ['USERNAME']
-    password = os.environ['PASSWORD']
-    channel = os.environ['CHANNEL']
+    print("\nGetting accounts listing to login.")
+    consult_database('accounts')
+    acc = input("\n Enter account number to login: ")
+    if acc in get_data()['accounts']:
+        username = get_data()['accounts'][acc]
+        password = get_data()['passwords'][acc]
+    else:
+        print("Number doesn't match, insert the credentials.")
+        username = input(" Login username: ")
+        password = input(" Login password: ")
     print("Attempting login to {} account." .format(username))
 
     WebDriverWait(b, 5).until(EC.presence_of_element_located((By.ID, 'login-username'))).send_keys(username)
@@ -203,6 +256,13 @@ def main():
     b.find_element_by_css_selector('[pattern="[0-9]*"]').send_keys(code)
     sleep(3)
 
+    print("\nAvailable channels:")
+    consult_database('channels')
+    cchannel = input("\n Enter channel number to navigate: ")
+    if cchannel in get_data()['channels']:
+        channel = get_data()['channels'][cchannel]
+    else:
+        channel = input("Number doesn't match with any channel \n Insert channel name: ")
     print("Redirecting to {}{}" .format(url,channel))
 
     b.get(url + channel)
