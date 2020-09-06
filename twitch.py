@@ -47,15 +47,6 @@ def firefoxbrowser(nogui): # use nogui as boolean
 def get_full_path(file_path):
     return str(Path("{}{}".format(os.getcwd(), file_path)))
 
-def get_data():
-    with open(get_full_path("/data.json")) as data_file:
-        data = json.load(data_file)
-    return data
-
-def consult_database(data):
-    for x in get_data()[data]:
-        print("{} - {}" .format(x,get_data()[data][x]))
-
 def change_theme(browser): # change color theme
     menu = browser.find_element_by_css_selector('[data-a-target="user-menu-toggle"')
     menu.click()
@@ -183,7 +174,7 @@ def start_bonus(channel):
     if channel_status(b, channel, False) == True:
         mature_check(b)
         chat_rules(b)
-        #set_low_quality(b)
+        # set_low_quality(b)
         print("\n---------------------------------- \n\n")
         bonus_start(b, channel)
     print("\n---------------------------------- \n\n")
@@ -193,22 +184,15 @@ def start_idler(channel):
     print("\n\n--------- checking stuff --------- \n")
     mature_check(b)
     chat_rules(b)
-    #set_low_quality(b)
+    # set_low_quality(b)
     print("\n---------------------------------- \n\n")
     idler(b, channel)
     exit_script()
 
 def main():
-    print("\nGetting accounts listing to login.")
-    consult_database('accounts')
-    acc = input("\n Enter account number to login: ")
-    if acc in get_data()['accounts']:
-        username = get_data()['accounts'][acc]
-        password = get_data()['passwords'][acc]
-    else:
-        print("Number doesn't match, insert the credentials.")
-        username = input(" Login username: ")
-        password = input(" Login password: ")
+    username = os.environ['USERNAME']
+    password = os.environ['PASSWORD']
+    channel = os.environ['CHANNEL']
     print("Attempting login to {} account." .format(username))
 
     WebDriverWait(b, 5).until(EC.presence_of_element_located((By.ID, 'login-username'))).send_keys(username)
@@ -219,13 +203,6 @@ def main():
     b.find_element_by_css_selector('[pattern="[0-9]*"]').send_keys(code)
     sleep(3)
 
-    print("\nAvailable channels:")
-    consult_database('channels')
-    cchannel = input("\n Enter channel number to navigate: ")
-    if cchannel in get_data()['channels']:
-        channel = get_data()['channels'][cchannel]
-    else:
-        channel = input("Number doesn't match with any channel \n Insert channel name: ")
     print("Redirecting to {}{}" .format(url,channel))
 
     b.get(url + channel)
@@ -235,7 +212,7 @@ def main():
         start_idler(channel)
     else:
         start_bonus(channel)
-        
+
 ##########################################
 
 print("\n     TWITCH AUTOMATION SCRIPT.\n     MADE BY")
@@ -248,7 +225,6 @@ print("         +#+#+     +#+     +#+      +#+   +#+  +#+     +#+ +#+   +#+#+")
 print("         #+#+#     #+#     #+#       #+# #+#   #+#     #+# #+#    #+#+")
 print("     ########      ###     #######     ###     ###     ### ###     ###")
 print("     -----------------------------------------------------------------")
-print("     Docker image by João Bruno.")
 
 driver = input("\nSelect the browser:\n1 - to use chrome\n2 - to use firefox\n Type browser number: ")
 while (driver != '1' and driver != '2'):
