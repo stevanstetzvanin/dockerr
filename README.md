@@ -1,3 +1,5 @@
+THIS IS CURRENTLY OUTDATED, WILL UPDATE SOON.
+
 Twitch Selenium Automation
 
 Features:
