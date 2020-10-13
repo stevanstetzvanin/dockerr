@@ -1,6 +1,6 @@
 THIS PROJECT IS CURRENTLY OUTDATED, WILL UPDATE SOON.
 
-Twitch Selenium Automation
+Twitch TV Selenium Automation
 
 Features:
 
