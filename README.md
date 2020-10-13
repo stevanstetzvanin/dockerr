@@ -1,6 +1,6 @@
-#THIS PROJECT IS CURRENTLY OUTDATED, WILL UPDATE SOON.
+# THIS PROJECT IS CURRENTLY OUTDATED, WILL UPDATE SOON.
 
-#Twitch TV Selenium Automation
+# Twitch TV Selenium Automation
 
 Features:
 
@@ -11,7 +11,7 @@ Features:
 # Requirements: Docker
 
 Tutorial: 
-1) Make a clone of this repositorie 
+1) Make a clone of this repositorie
 
 $ git clone https://github.com/stevanstetzvanin/twdocker.git
 
